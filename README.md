@@ -1,5 +1,4 @@
-
-
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ksator/test_junos_configuration.svg)  ![MicroBadger Size](https://img.shields.io/microbadger/image-size/ksator/test_junos_configuration.svg) ![MicroBadger Layers](https://img.shields.io/microbadger/layers/ksator/test_junos_configuration.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/ksator/test_junos_configuration.svg) 
 
 # Description 
 
