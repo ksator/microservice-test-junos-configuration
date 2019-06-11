@@ -74,7 +74,7 @@ ansible_ssh_pass=juniper123
 
 Junos configuration files example:   
 ```
-$ lls inputs/configuration_files/
+$ ls inputs/configuration_files/
 demo-qfx10k2-14.conf  demo-qfx10k2-15.conf  demo-qfx5110-10.conf  demo-qfx5110-9.conf
 ```
 ```
