@@ -10,7 +10,8 @@ It:
 - does a commit check
 - get the diff between running and candidate configuration 
 - renders the candidate configuration
-- rollbacks 0 the candidate configuration. 
+- rollbacks 0 the candidate configuration    
+
 So no commit is done on the devices  
 
 This microservice: 
@@ -32,8 +33,9 @@ $ docker pull ksator/test_junos_configuration
 ```
 Verify
 ```
-$ docker images ksator/test_junos_configuration  
+$ docker images ksator/test_junos_configuration
 REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
+ksator/test_junos_configuration   latest              4f6f59eb664a        33 minutes ago      543MB
 ```
 
 ## Create the microservice inputs
@@ -108,6 +110,45 @@ load_type: "merge"
 This will instanciate a container, execute the service, stop the container and remove the container.    
 ```
 $ docker run -it --rm -v ${PWD}/inputs:/inputs -v ${PWD}/outputs:/outputs ksator/test_junos_configuration
+test Junos configuration
+
+PLAY [Deploy Junos configuration] *************************************************************************************************************************************************************************************************************************************************
+
+TASK [include_vars] ***************************************************************************************************************************************************************************************************************************************************************
+ok: [demo-qfx5110-9]
+ok: [demo-qfx5110-10]
+ok: [demo-qfx10k2-14]
+ok: [demo-qfx10k2-15]
+
+TASK [include_vars] ***************************************************************************************************************************************************************************************************************************************************************
+ok: [demo-qfx5110-9]
+ok: [demo-qfx5110-10]
+ok: [demo-qfx10k2-14]
+ok: [demo-qfx10k2-15]
+
+TASK [test-configuration : Create output directory for each device] ***************************************************************************************************************************************************************************************************************
+changed: [demo-qfx10k2-15]
+changed: [demo-qfx5110-9]
+changed: [demo-qfx5110-10]
+changed: [demo-qfx10k2-14]
+
+TASK [test-configuration : Pushing configuration, doing a commit check, getting the diff, and rollbacking] ************************************************************************************************************************************************************************
+changed: [demo-qfx5110-9]
+ok: [demo-qfx5110-10]
+changed: [demo-qfx10k2-15]
+changed: [demo-qfx10k2-14]
+
+TASK [test-configuration : Pushing config, doing a commit check, downloading candidate config, and rollbacking] *******************************************************************************************************************************************************************
+changed: [demo-qfx10k2-14]
+changed: [demo-qfx10k2-15]
+changed: [demo-qfx5110-10]
+changed: [demo-qfx5110-9]
+
+PLAY RECAP ************************************************************************************************************************************************************************************************************************************************************************
+demo-qfx10k2-14            : ok=5    changed=3    unreachable=0    failed=0   
+demo-qfx10k2-15            : ok=5    changed=3    unreachable=0    failed=0   
+demo-qfx5110-10            : ok=5    changed=2    unreachable=0    failed=0   
+demo-qfx5110-9             : ok=5    changed=3    unreachable=0    failed=0   
 
 ```
 List the containers.  
@@ -127,7 +168,21 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 Here's the output generated
 ```
 $ ls outputs/
+demo-qfx10k2-14  demo-qfx10k2-15  demo-qfx5110-10  demo-qfx5110-9
 ```
 ```
-$ more outputs/demo-qfx10k2-15/
+$ ls outputs/demo-qfx10k2-14/
+candidate-rendered-demo-qfx10k2-14.conf  configuration_diff.log
+```
+To get the diff, run this command: 
+```
+$ more outputs/demo-qfx10k2-14/configuration_diff.log 
+
+[edit system services extension-service request-response grpc clear-text]
+-       port 32768;
++       port 32766;
+```
+to get the rendered candidate configuration, run this command:  
+```
+more outputs/demo-qfx10k2-14/candidate-rendered-demo-qfx10k2-14.conf 
 ```
