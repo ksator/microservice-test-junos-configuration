@@ -9,7 +9,7 @@ It:
 - loads the Junos configuration files
 - does a commit check
 - get the diff between running and candidate configuration 
-- renders the candidate configuration
+- collects the candidate configuration
 - rollbacks 0 the candidate configuration    
 
 So no commit is done on the devices  
